@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8">
+</head>
+<body>
+
+<script>
+//initlise and setup facebook js sdk
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '343061712934729',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v3.1'
+    });
+
+
+FB.getLoginStatus(function(response) {
+	if(response.status === 'connected'){
+		document.getElementById('status').innerHTML = 'we are connected';}
+		else if(response.status === 'not_authorized'){
+			document.getElementById('status').innerHTML = 'we are not logged in'}
+			else {
+				document.getElementById('status').innerHTML = ' You are not logged into facebook';}
+			
+		})
+	//}
+    //statusChangeCallback(response);
+};
+
+  //};
+
+  //FB.AppEvents.logPageView(); 
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+  function login(){
+  	FB.login(function (response) {
+  			if(response.status === 'connected'){
+		document.getElementById('status').innerHTML = 'we are connected';}
+		else if(response.status === 'not_authorized'){
+			document.getElementById('status').innerHTML = 'we are not logged in'}
+			else {
+				document.getElementById('status').innerHTML = ' You are not logged into facebook';}
+
+  	});
+  }
+
+  // getting user name
+    function getName() {
+      FB.api('/me', 'GET', {fields: 'first_name,last_name,name, picture'}, function(response) {
+        document.getElementById('status').innerHTML = "<img src='" + response.picture.data.url + "'>"; // change id to get first name etc. 
+        console.log(response)
+      });
+    }
+
+      // getting user id
+    function getId() {
+      FB.api('/me', 'GET', {fields: 'id'}, function(response) {
+        document.getElementById('status').innerHTML = response.id; // change id to get first name etc. 
+      });
+    }
+
+</script>
+
+<div id = "status"></div>
+<button onclick="getName()">Get Name</button>
+<button onclick="getId()">Get ID</button>
+<button onclick = "login()">Login</button>
+</body>
+</html> 
